@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "jsdelivr",
+  "libraries": [
+    {
+      "library": "dayjs@1.11.7",
+      "destination": "wwwroot/lib/dayjs/",
+      "files": [
+        "dayjs.min.js",
+        "plugin/relativeTime.min.js"
+      ]
+    }
+  ]
+}
