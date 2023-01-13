@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhotoBlog.Data;
 
@@ -11,9 +12,10 @@ using PhotoBlog.Data;
 namespace PhotoBlog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230113113247_TagsAdded")]
+    partial class TagsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +57,7 @@ namespace PhotoBlog.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedTime = new DateTime(2023, 1, 13, 15, 51, 17, 506, DateTimeKind.Local).AddTicks(8349),
+                            CreatedTime = new DateTime(2023, 1, 13, 14, 32, 47, 214, DateTimeKind.Local).AddTicks(8517),
                             Description = "As the sun sets behind the hills, I watch the unique blue of the sea.",
                             Photo = "sample.jpg",
                             Title = "Mountains and Sea"
@@ -78,38 +80,6 @@ namespace PhotoBlog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "nature"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "sea"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "hiking"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "sunset"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "walk"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "rain"
-                        });
                 });
 
             modelBuilder.Entity("PostTag", b =>

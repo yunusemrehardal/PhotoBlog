@@ -26,9 +26,14 @@ body {
     width: 100%;
 }
 
+.post-details {
+    display: flex;
+    justify-content: space-between;
+    padding: .3rem 0;
+    font-size: .8em;
+}
+
 .post-time {
     text-align: right;
     font-style: italic;
-    font-size: .8em;
-    padding: .3rem 0 0 0;
 }

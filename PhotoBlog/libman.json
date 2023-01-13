@@ -9,6 +9,16 @@
         "dayjs.min.js",
         "plugin/relativeTime.min.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "bootstrap5-tags@1.5.2",
+      "destination": "wwwroot/lib/bootstrap5-tags/",
+      "files": [
+        "tags.js",
+        "tags.min.js",
+        "tags.min.js.map"
+      ]
     }
   ]
 }
