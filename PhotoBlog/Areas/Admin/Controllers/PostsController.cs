@@ -27,7 +27,7 @@ namespace PhotoBlog.Areas.Admin.Controllers
         // GET: Admin/Posts
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Posts.ToListAsync());
+            return View(await _context.Posts.ToListAsync());
         }
 
         // GET: Admin/Posts/Details/5
@@ -58,18 +58,18 @@ namespace PhotoBlog.Areas.Admin.Controllers
         private void LoadTags(HashSet<string>? postedTags = null)
         {
 
-            HashSet<string> tags = _context.Tags.Select(x=>x.Name).ToHashSet();
+            HashSet<string> tags = _context.Tags.Select(x => x.Name).ToHashSet();
 
             if (postedTags != null)
             {
                 tags.AddRange(postedTags);
             }
 
-            ViewBag.Tags = tags.Select(x=> new SelectListItem()
+            ViewBag.Tags = tags.Select(x => new SelectListItem()
             {
                 Text = x,
                 Value = x
-            }).OrderBy(x=>x.Text);
+            }).OrderBy(x => x.Text);
         }
 
         // POST: Admin/Posts/Create
@@ -87,8 +87,8 @@ namespace PhotoBlog.Areas.Admin.Controllers
                 {
                     var tag = _context.Tags.FirstOrDefault(x => x.Name == tagName);
 
-                    if(tag == null)
-                        tag= new Tag() { Name = tagName };
+                    if (tag == null)
+                        tag = new Tag() { Name = tagName };
 
                     tags.Add(tag);
                 }
@@ -136,13 +136,17 @@ namespace PhotoBlog.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            await _context.Entry(post).Collection(x => x.Tags).LoadAsync();
 
             var vm = new EditViewModel()
             {
                 Id = post.Id,
                 Title = post.Title,
-                Description = post.Description
+                Description = post.Description,
+                Tags = post.Tags.Select(x => x.Name).ToHashSet()
             };
+
+            LoadTags();
             return View(vm);
         }
 
@@ -164,12 +168,27 @@ namespace PhotoBlog.Areas.Admin.Controllers
                 if (vm.Photo != null)
                 {
                     DeletePhoto(post.Photo);
-                    post.Photo = SavePhoto(vm.Photo); 
+                    post.Photo = SavePhoto(vm.Photo);
                 }
+
+                await _context.Entry(post).Collection(x=>x.Tags).LoadAsync();
+                post.Tags.RemoveAll(x => true);
+
+                foreach (string tagName in vm.Tags!)
+                {
+                    var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Name == tagName);
+
+                    if (tag == null)
+                        tag= new Tag { Name = tagName };
+
+                    post.Tags.Add(tag);
+                }
+
                 await _context.SaveChangesAsync();
-                
+
                 return RedirectToAction(nameof(Index));
             }
+            LoadTags(vm.Tags);
             return View(vm);
         }
 
@@ -206,7 +225,7 @@ namespace PhotoBlog.Areas.Admin.Controllers
                 DeletePhoto(post.Photo);
                 _context.Posts.Remove(post);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -226,7 +245,7 @@ namespace PhotoBlog.Areas.Admin.Controllers
 
         private bool PostExists(int id)
         {
-          return _context.Posts.Any(e => e.Id == id);
+            return _context.Posts.Any(e => e.Id == id);
         }
     }
 }

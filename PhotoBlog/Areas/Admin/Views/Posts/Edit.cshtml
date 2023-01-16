@@ -28,6 +28,13 @@
                 <input type="file" asp-for="Photo" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
+            <div class="form-group mb-3">
+                <label asp-for="Tags" class="form-label">Tags</label>
+                <select asp-items="ViewBag.Tags" asp-for="Tags" data-tags-input data-allow-new="true" data-allow-clear="true" class="form-select" multiple>
+                    <option selected disabled hidden value="">Choose a tag...</option>
+                </select>
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
             <div class="form-group mb-2">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
